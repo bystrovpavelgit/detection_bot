@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-8">
+				<b>ОБЩАЯ СТАТИСТИКА ПО ЗАПРОСАМ<b>
+				<br>
+				{% for message in answers %}
+					<b>{{ message }}<b>
+					<br>
+				{% endfor %}
+                <img src={{ chart_img }} class="img-fluid" alt="Responsive image">
+            </div>
+            <div class="col-2">
+            </div>
+        </div>
+    </div>
+{% endblock %}
