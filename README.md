@@ -45,7 +45,16 @@ MONGO_LINK = "<mongodb url>"
 - Поиск дефектов на асфальте
 - Статистика запросов
 
-====================================================================================
+## Детектирования трещин на дорогах на основе Convolutional Neural Networks
+
+Во всех нейросетях используется нелинейная модель нейрона
+![Screenshot](img/Neuron.png)
+
+В ноутбуках приведены нейросети из лекций К. Воронцова
+
+![Screenshot](img/Voroncov_CNN.png)
+
+===================================================================================
 # Object-Detection Web-app (road check and cars localization)
 This Web-app detects cars and road defects on the images
 
