@@ -1,5 +1,7 @@
-""" author Pavel Bystrov
-    object detection functions"""
+""" 2020
+    Created by Pavel Bystrov
+    object detection functions
+"""
 import torch
 import numpy as np
 from torch import nn

@@ -1,4 +1,5 @@
-""" login form """
+""" Apache License 2.0 Copyright (c) 2020 Pavel Bystrov
+    login form """
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired

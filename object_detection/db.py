@@ -1,4 +1,7 @@
-""" db functions """
+""" 2020
+    Created by Dariya
+    db functions 
+"""
 
 
 def get_or_create_user(db, effective_user, chat_id):

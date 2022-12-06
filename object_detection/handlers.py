@@ -1,4 +1,7 @@
-""" bot handlers """
+""" 2020
+    Created by Dariya
+    bot handlers
+"""
 import os
 from pymongo import MongoClient
 from utils import main_keyboard

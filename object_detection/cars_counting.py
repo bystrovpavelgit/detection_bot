@@ -1,5 +1,7 @@
-""" author Pavel Bystrov
-    cars counting functions"""
+""" 2020
+    Created by Pavel Bystrov
+    cars counting functions
+"""
 import cv2
 import numpy as np
 from cv2 import UMat, rectangle

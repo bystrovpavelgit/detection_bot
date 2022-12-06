@@ -1,4 +1,7 @@
-""" chat bot app """
+"""2020
+   Created by Dariya
+   chat bot app
+"""
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from settings import API_KEY
 from handlers import detect_defects, count_cars, get_stats, start

@@ -1,4 +1,7 @@
-"""charts function"""
+""" 2020
+    Created by Dariya
+    charts function
+"""
 import os
 import matplotlib.pyplot as plt
 from numpy import random as rnd

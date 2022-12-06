@@ -1,4 +1,7 @@
-"""  DL constants """
+""" 2020
+    Created by Pavel Bystrov
+    DL constants
+"""
 import pickle
 import torchvision
 from processing import get_model
