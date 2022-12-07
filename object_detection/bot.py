@@ -1,5 +1,4 @@
-"""2020
-   Created by Dariya
+"""
    chat bot app
 """
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters

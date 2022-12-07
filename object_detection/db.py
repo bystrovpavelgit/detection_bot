@@ -1,5 +1,4 @@
-""" 2020
-    Created by Dariya
+""" 
     db functions 
 """
 

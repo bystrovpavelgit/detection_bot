@@ -1,5 +1,4 @@
-""" 2020
-    Created by Pavel Bystrov
+""" 
     cars counting functions
 """
 import cv2

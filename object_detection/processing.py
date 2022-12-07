@@ -1,5 +1,4 @@
-""" 2020
-    Created by Pavel Bystrov
+""" 
     object detection functions
 """
 import torch
