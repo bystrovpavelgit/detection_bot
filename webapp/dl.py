@@ -1,4 +1,5 @@
-"""DL constants"""
+""" Apache License 2.0 Copyright (c) 2020 Pavel Bystrov
+    DL constants"""
 import pickle
 import torchvision
 from object_detection.processing import get_model

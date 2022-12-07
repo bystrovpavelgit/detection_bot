@@ -1,4 +1,6 @@
-"""  DL constants """
+""" 
+    DL constants
+"""
 import pickle
 import torchvision
 from processing import get_model

@@ -1,4 +1,5 @@
-"""blueprint for user"""
+""" Apache License 2.0 Copyright (c) 2020 Pavel Bystrov
+    blueprint for user"""
 from flask import render_template, flash, redirect, url_for, Blueprint
 from flask_login import login_user, logout_user, current_user
 from webapp.user.forms import LoginForm

@@ -1,4 +1,5 @@
-"""blueprint for statistics"""
+""" Apache License 2.0 Copyright (c) 2020 Pavel Bystrov
+    blueprint for statistics"""
 import os
 from flask import render_template, Blueprint
 from flask_login import login_required

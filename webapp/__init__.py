@@ -1,4 +1,5 @@
-""" Flask app """
+""" Apache License 2.0 Copyright (c) 2020 Pavel Bystrov
+    Flask app """
 import os
 from flask import Flask, render_template, flash, request, redirect, url_for
 from flask_login import LoginManager

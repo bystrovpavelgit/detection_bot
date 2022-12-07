@@ -1,4 +1,6 @@
-"""charts function"""
+""" 
+    charts function
+"""
 import os
 import matplotlib.pyplot as plt
 from numpy import random as rnd

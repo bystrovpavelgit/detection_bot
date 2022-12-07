@@ -1,4 +1,5 @@
-"""business logic"""
+""" Apache License 2.0 Copyright (c) 2020 Pavel Bystrov
+    business logic """
 from object_detection.processing import process_picture
 from object_detection.cars_counting import detect_all_autos
 from sqlalchemy.sql import func

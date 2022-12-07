@@ -1,4 +1,5 @@
-""" configuration """
+""" Apache License 2.0 Copyright (c) 2020 Pavel Bystrov
+    configuration """
 import os
 from datetime import timedelta
 basedir = os.path.abspath(os.path.dirname(__file__))

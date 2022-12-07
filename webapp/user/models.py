@@ -1,4 +1,5 @@
-"""models for SQLite"""
+""" Apache License 2.0 Copyright (c) 2020 Pavel Bystrov
+    models for SQLite"""
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from webapp.db import DB
