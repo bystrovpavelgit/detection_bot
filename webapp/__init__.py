@@ -38,26 +38,30 @@ def create_app():
     def index():
         return render_template("index.html")
 
-    @app.route("/cars/", methods=["GET", "POST"])
+    @app.route("/cars/", methods=["GET"])
     def count_cars():
-        if request.method == "POST":
-            file_name = process_file(request)
-            if file_name is None:
-                flash("Ошибка загрузки файла")
-                return redirect(url_for("index"))
-            answer = car_count(file_name)
-            return render_template("show_cars.html", main_img="/" + answer[1], answer=answer[0])
         return render_template("submit.html", main_text="Count cars")
 
-    @app.route("/defects/", methods=["GET", "POST"])
+    @app.route("/cars/", methods=["POST"])
+    def count_cars():
+        file_name = process_file(request)
+        if file_name is None:
+            flash("Ошибка загрузки файла")
+            return redirect(url_for("index"))
+        answer = car_count(file_name)
+        return render_template("show_cars.html", main_img=f"/{answer[1]}", answer=answer[0])
+
+    @app.route("/defects/", methods=["GET"])
     def detect_defects():
-        if request.method == "POST":
-            file_name = process_file(request)
-            if file_name is None:
-                flash("Ошибка загрузки файла")
-                return redirect(url_for("index"))
-            answer = detect(file_name)
-            return render_template("show_result.html", main_img="/" + file_name, answer=answer)
         return render_template("submit.html", main_text="Detect defects")
+
+    @app.route("/defects/", methods=["POST"])
+    def detect_defects():
+        file_name = process_file(request)
+        if file_name is None:
+            flash("Ошибка загрузки файла")
+            return redirect(url_for("index"))
+        answer = detect(file_name)
+        return render_template("show_result.html", main_img=f"/{file_name}", answer=answer)
 
     return app

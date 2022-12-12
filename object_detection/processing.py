@@ -3,6 +3,7 @@
 """
 import torch
 import numpy as np
+import pickle
 from torch import nn
 from torchvision import transforms
 from torchvision.models import mobilenet_v2
@@ -56,4 +57,10 @@ def process_picture(model, label_encoder, picture_filename):
 
     other = "асфальт" if predicted_label == "0" else "посторонний предмет"
     result = "дефект" if predicted_label == "1" else other
-    return (result, int(y_pred))
+    return result, int(y_pred)
+
+
+def load_encoder(name):
+    """ load encoder """
+    with open(name, "rb") as enc:
+        return pickle.load(enc)

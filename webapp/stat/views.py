@@ -15,5 +15,5 @@ def show_stat():
     """show_stat endpoint"""
     answers = get_stats()
     text = answers[0]
-    chart_img = "/" + get_chart(os.path.join("webapp", "static"), answers[1], answers[2])
-    return render_template("stat/show_stat.html", answers=text, chart_img=chart_img)
+    chart = get_chart(os.path.join("webapp", "static"), answers[1], answers[2])
+    return render_template("stat/show_stat.html", answers=text, chart_img=f"/{chart}")
