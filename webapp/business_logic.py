@@ -1,11 +1,12 @@
 """ Apache License 2.0 Copyright (c) 2020 Pavel Bystrov
     business logic """
+import logging
+from sqlite3 import IntegrityError
 from object_detection.processing import process_picture
 from object_detection.cars_counting import detect_all_autos
 from sqlalchemy.exc import SQLAlchemyError, PendingRollbackError
-from sqlite3 import IntegrityError
 from sqlalchemy.sql import func
-from webapp.user.models import Defects, CarCounts
+from webapp.stat.models import Defects, CarCounts
 from webapp.db import DB
 from webapp.dl import CARS_RCNN_MODEL, DEFECTS_MODEL, LABEL_ENCODER
 
@@ -16,9 +17,9 @@ def add_defect(filename, y_pred, result):
         row = Defects(image=filename, object_class=int(y_pred), object_label=result)
         DB.session.add(row)
         DB.session.commit()
-    except (SQLAlchemyError, IntegrityError, PendingRollbackError) as e:
-        error = str(e.__dict__['orig'])
-        logging.error(f"Exception in add_defect: {error}")
+    except (SQLAlchemyError, IntegrityError, PendingRollbackError) as err:
+        error = str(err.__dict__['orig'])
+        logging.error("Exception in add_defect:" + error)
         DB.session.rollback()
 
 
@@ -28,9 +29,9 @@ def add_car_count(filename, count):
         row = CarCounts(image=filename, car_count=count, ratio=0.0)
         DB.session.add(row)
         DB.session.commit()
-    except (SQLAlchemyError, IntegrityError, PendingRollbackError) as e:
-        error = str(e.__dict__['orig'])
-        logging.error(f"Exception in add_car_count: {error}")
+    except (SQLAlchemyError, IntegrityError, PendingRollbackError) as err:
+        error = str(err.__dict__['orig'])
+        logging.error("Exception in add_car_count:" + error)
         DB.session.rollback()
 
 
@@ -42,7 +43,7 @@ def detect(filename):
         pred = int(y_pred)
         add_defect(filename, pred, result)
     except ValueError:
-        logging.error(f"Int conversion error for: {y_pred}")
+        logging.error("Int conversion error for " + str(y_pred))
     return result
 
 
@@ -68,5 +69,4 @@ def car_count(filename):
     if len(result) > 1:
         add_car_count(filename, result[0])
         return result[1:]
-    else:
-        return []
+    return []
