@@ -1,6 +1,5 @@
 """ Apache License 2.0 Copyright (c) 2020 Pavel Bystrov
     DL constants"""
-import pickle
 import torchvision
 from object_detection.processing import get_model, load_encoder
 from webapp.config import CLSF_MODEL, ENCODER_FILE
