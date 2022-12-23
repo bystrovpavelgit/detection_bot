@@ -12,16 +12,6 @@ from PIL import Image
 RESCALE_SIZE = 224
 
 
-def get_model(name, n_outputs=3):
-    """load pretrained model"""
-    simple_cnn = mobilenet_v2(pretrained=False)
-    simple_cnn.classifier = nn.Sequential(
-        nn.Dropout(0.2), nn.BatchNorm1d(1280), nn.Linear(1280, n_outputs, bias=True)
-    )
-    simple_cnn.load_state_dict(torch.load(name, map_location=torch.device("cpu")))
-    return simple_cnn
-
-
 def predict_one_sample(model, inputs):
     """Предсказание, для одной картинки"""
     with torch.no_grad():
@@ -48,19 +38,12 @@ def get_image(img_name):
     return out
 
 
-def process_picture(model, label_encoder, picture_filename):
+def process_picture(model, label_dict, picture_filename):
     """get prediction and returns description of this picture"""
     img = get_image(picture_filename)
     prob_pred = predict_one_sample(model, img[None, ...])
     y_pred = np.argmax(prob_pred)
-    predicted_label = label_encoder.classes_[int(y_pred)]
-
+    predicted_label = label_dict[int(y_pred)]
     other = "асфальт" if predicted_label == "0" else "посторонний предмет"
     result = "дефект" if predicted_label == "1" else other
     return result, int(y_pred)
-
-
-def load_encoder(name):
-    """ load encoder """
-    with open(name, "rb") as enc:
-        return pickle.load(enc)

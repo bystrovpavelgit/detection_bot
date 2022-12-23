@@ -7,8 +7,9 @@ from object_detection.cars_counting import detect_all_autos
 from sqlalchemy.exc import SQLAlchemyError, PendingRollbackError
 from sqlalchemy.sql import func
 from webapp.stat.models import Defects, CarCounts
+from webapp.config import CLASS_MAP
 from webapp.db import DB
-from webapp.dl import CARS_RCNN_MODEL, DEFECTS_MODEL, LABEL_ENCODER
+from webapp.dl import CARS_RCNN_MODEL, DEFECTS_MODEL
 
 
 def add_defect(filename, y_pred, result):
@@ -38,7 +39,7 @@ def add_car_count(filename, count):
 def detect(filename):
     """ Ищем дефекты """
     print(f"Ищем дефекты на {filename}")
-    result, y_pred = process_picture(DEFECTS_MODEL, LABEL_ENCODER, filename)
+    result, y_pred = process_picture(DEFECTS_MODEL, CLASS_MAP, filename)
     try:
         pred = int(y_pred)
         add_defect(filename, pred, result)
