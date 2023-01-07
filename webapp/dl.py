@@ -12,9 +12,9 @@ def get_model(name, n_outputs=3):
     simple_cnn.classifier = nn.Sequential(
         nn.Dropout(0.2), nn.BatchNorm1d(1280), nn.Linear(1280, n_outputs, bias=True)
     )
-    simple_cnn.load_state_dict(torch.load(name, map_location=torch.device("cpu")))
+    simple_cnn.load_state_dict(torch.load(name))  # map_location=torch.device("cpu")
     return simple_cnn
 
 
-CARS_RCNN_MODEL = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
+CARS_RCNN_MODEL = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=False)
 DEFECTS_MODEL = get_model(CLSF_MODEL)
