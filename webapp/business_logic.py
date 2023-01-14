@@ -1,13 +1,15 @@
 """ Apache License 2.0 Copyright (c) 2020 Pavel Bystrov
     business logic """
+import logging
+from sqlite3 import IntegrityError
+from sqlalchemy.exc import SQLAlchemyError, PendingRollbackError
+from sqlalchemy.sql import func
 from object_detection.processing import process_picture
 from object_detection.cars_counting import detect_all_autos
-from sqlalchemy.exc import SQLAlchemyError, PendingRollbackError
-from sqlite3 import IntegrityError
-from sqlalchemy.sql import func
-from webapp.user.models import Defects, CarCounts
+from webapp.stat.models import Defects, CarCounts
+from webapp.config import CLASS_MAP
 from webapp.db import DB
-from webapp.dl import CARS_RCNN_MODEL, DEFECTS_MODEL, LABEL_ENCODER
+from webapp.dl import CARS_RCNN_MODEL, DEFECTS_MODEL
 
 
 def add_defect(filename, y_pred, result):
@@ -16,9 +18,22 @@ def add_defect(filename, y_pred, result):
         row = Defects(image=filename, object_class=int(y_pred), object_label=result)
         DB.session.add(row)
         DB.session.commit()
-    except (SQLAlchemyError, IntegrityError, PendingRollbackError) as e:
-        error = str(e.__dict__['orig'])
-        logging.error(f"Exception in add_defect: {error}")
+    except (SQLAlchemyError, IntegrityError, PendingRollbackError) as err:
+        error = str(err.__dict__['orig'])
+        logging.error("Exception in add_defect:" + error)
+        DB.session.rollback()
+
+
+def delete_defect(filename, y_pred):
+    """ delete defect record """
+    try:
+        row = Defects.query.filter(
+                    Defects.image == filename and
+                    Defects.object_class == y_pred).first()
+        DB.session.delete(row)
+        DB.session.commit()
+    except (SQLAlchemyError, IntegrityError, PendingRollbackError) as err:
+        logging.error(f"Exception in delete_defect: {err.__dict__['orig']}")
         DB.session.rollback()
 
 
@@ -28,21 +43,35 @@ def add_car_count(filename, count):
         row = CarCounts(image=filename, car_count=count, ratio=0.0)
         DB.session.add(row)
         DB.session.commit()
-    except (SQLAlchemyError, IntegrityError, PendingRollbackError) as e:
-        error = str(e.__dict__['orig'])
-        logging.error(f"Exception in add_car_count: {error}")
+    except (SQLAlchemyError, IntegrityError, PendingRollbackError) as err:
+        error = str(err.__dict__['orig'])
+        logging.error("Exception in add_car_count:" + error)
+        DB.session.rollback()
+
+
+def delete_car_count(filename, count):
+    """ delete car count """
+    try:
+        row = CarCounts.query.filter(
+                    CarCounts.image == filename and
+                    CarCounts.car_count == count).first()
+        DB.session.delete(row)
+        DB.session.commit()
+    except (SQLAlchemyError, IntegrityError, PendingRollbackError) as err:
+        error = str(err.__dict__['orig'])
+        logging.error(f"Exception in delete_car_count:{error}")
         DB.session.rollback()
 
 
 def detect(filename):
     """ Ищем дефекты """
     print(f"Ищем дефекты на {filename}")
-    result, y_pred = process_picture(DEFECTS_MODEL, LABEL_ENCODER, filename)
+    result, y_pred = process_picture(DEFECTS_MODEL, CLASS_MAP, filename)
     try:
         pred = int(y_pred)
         add_defect(filename, pred, result)
     except ValueError:
-        logging.error(f"Int conversion error for: {y_pred}")
+        logging.error("Int conversion error for " + str(y_pred))
     return result
 
 
@@ -68,5 +97,4 @@ def car_count(filename):
     if len(result) > 1:
         add_car_count(filename, result[0])
         return result[1:]
-    else:
-        return []
+    return []
