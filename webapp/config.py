@@ -14,3 +14,4 @@ REMEMBER_COOKIE_DURATION = timedelta(days=5)
 ENCODER_FILE = "model/label_encoder.pkl"
 CLSF_MODEL = "model/mobilenetv2_80_3_cl.dict"
 COUNT_CARS = "Count cars"
+CLASS_MAP = {0: "0", 1: "1", 2: "2"}
